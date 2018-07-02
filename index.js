@@ -11,7 +11,8 @@ function randomNumberString(digitCount) {
 }
 
 class Puzzle {
-    constructor(digitCount, secondsVisible) {
+    constructor(gameEl, digitCount, secondsVisible) {
+        const _gameEl = gameEl;
         const _digitCount = digitCount;
         const _secondsVisible = secondsVisible;
 
@@ -25,15 +26,15 @@ class Puzzle {
             _numberStringEl = document.createElement('span');
             _numberStringEl.setAttribute('id', 'random-number');
             _numberStringEl.innerHTML = _numberString;
-            document.body.appendChild(_numberStringEl);
+            _gameEl.appendChild(_numberStringEl);
         };
 
         const timeToGuess = function() {
-            document.body.removeChild(_numberStringEl);
+            _gameEl.removeChild(_numberStringEl);
 
             _userInputEl = document.createElement('input');
             _userInputEl.setAttribute('id', 'guess');
-            document.body.appendChild(_userInputEl);
+            _gameEl.appendChild(_userInputEl);
 
             _userInputEl.focus();
         };
@@ -46,7 +47,7 @@ class Puzzle {
         this.solved = function() {
             if (_userInputEl && _userInputEl.value === _numberString) {
                 console.log('correct - ' + _numberString);
-                document.body.removeChild(_userInputEl);
+                _gameEl.removeChild(_userInputEl);
                 return true;
             }
             return false;
@@ -64,13 +65,14 @@ class Game {
         let _digitCountEl = null;
         
         const _createDigitCountEl = function() {
-            _digitCountEl = document.createElement('h2');
+            _digitCountEl = document.createElement('div');
+            _digitCountEl.setAttribute('id', 'digit-count');
             _gameEl.appendChild(_digitCountEl);
         };
 
         const _startNextPuzzle = function() {
             _digitCountEl.innerText = "Level " + _digitCount;
-            _puzzle = new Puzzle(_digitCount, _secondsVisible);
+            _puzzle = new Puzzle(gameEl, _digitCount, _secondsVisible);
             _puzzle.start();
         };
 

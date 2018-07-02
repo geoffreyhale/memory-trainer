@@ -2,6 +2,27 @@
     font-family: 'system-ui', sans-serif;
 }
 
+body {
+    background: lightgrey;
+}
+
+.container {
+    background: white;
+    border-radius: 6px;
+    height: 120px;
+    margin: 0 auto;
+    padding: 20px;
+    width: 600px;
+}
+
+.title {
+    font-size: 2em;
+}
+
 #random-number, #guess {
     font-size: 36px;
+}
+
+#digit-count {
+    margin-bottom: 15px;
 }
