@@ -1,0 +1,7 @@
+* {
+    font-family: 'system-ui', sans-serif;
+}
+
+#random-number, #guess {
+    font-size: 36px;
+}
