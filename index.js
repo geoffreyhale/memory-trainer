@@ -1,3 +1,6 @@
+let digits = 1;
+let showSeconds = 3;
+
 function randomDigit() {
     return Math.floor(Math.random() * 10);
 }
@@ -10,29 +13,38 @@ function randomNumberString(digits) {
     return randomNumberStringArray.join('');
 }
 
-function startPuzzle(digits, delaySeconds) {
+function startPuzzle(digits, showSeconds) {
     const rns = randomNumberString(digits);
-    document.getElementById('random-number').innerHTML = rns;
-    setTimeout(timeToGuess.bind(null, rns), delaySeconds*1000); //@todo add visible timer
+    const randomNumberEl = document.createElement('span');
+    randomNumberEl.setAttribute('id', 'random-number');
+    randomNumberEl.innerHTML = rns;
+    document.body.appendChild(randomNumberEl);
+    setTimeout(timeToGuess.bind(null, randomNumberEl, rns), showSeconds*1000); //@todo add visible timer
 }
 
-function timeToGuess(answer) {
+function timeToGuess(randomNumberEl, solutionString) {
+    document.body.removeChild(randomNumberEl);
     const input = document.createElement('input');
     input.setAttribute('id', 'guess');
-    input.setAttribute('autofocus', true);
-    document.addEventListener('keyup', checkAnswer.bind(null, answer));
+    document.addEventListener('keyup', checkAnswer.bind(null, solutionString, input));
     document.body.appendChild(input);
+    input.focus();
 }
 
-function checkAnswer(answer) {
+function checkAnswer(solutionString, input) {
     const guess = document.getElementById('guess').value;
-    if (guess === answer) {
-        console.log('correct');
+    if (guess === solutionString) {
+        correctAnswer(input);
     }
 }
 
+function correctAnswer(input) {
+    console.log('correct');
+    document.body.removeChild(input);
+    digits++;
+    startPuzzle(digits, showSeconds);
+}
+
 window.onload = function() {
-    let digits = 6;
-    let delaySeconds = 0;
-    startPuzzle(digits, delaySeconds);
+    startPuzzle(digits, showSeconds);
 };
